@@ -14,11 +14,9 @@ RUN apt-get update && apt-get install -y \
 # Копирование только requirements.txt сначала
 COPY requirements.txt .
 
-# Обновление pip и установка зависимостей
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
-
-# Установка всех зависимостей
-RUN pip install --no-cache-dir -r requirements.txt
+# Обновление pip и установка зависимостей с подробным выводом
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir -r requirements.txt -v
 
 # Копирование остальных файлов проекта
 COPY . .
