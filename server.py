@@ -11,22 +11,23 @@ import random
 import string
 from dotenv import load_dotenv
 
-# Загружаем переменные окружения
-load_dotenv()
+# Загружаем переменные окружения (только если файл существует)
+if os.path.exists('.env'):
+    load_dotenv()
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
 
 # Инициализация Supabase
-supabase_url = os.getenv("SUPABASE_URL")
-supabase_key = os.getenv("SUPABASE_KEY")
+supabase_url = os.environ.get("SUPABASE_URL", "https://ddfjcrfioaymllejalpm.supabase.co")
+supabase_key = os.environ.get("SUPABASE_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkZmpjcmZpb2F5bWxsZWphbHBtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjQ3ODYzOSwiZXhwIjoyMDU4MDU0NjM5fQ.Dh42k1K07grKhF3DntbNLSwUifaXAa0Q6-LEIzRgpWM")
 supabase: Client = create_client(supabase_url, supabase_key)
 
 # Секретный ключ для JWT
-JWT_SECRET = os.getenv("JWT_SECRET")
+JWT_SECRET = os.environ.get("JWT_SECRET", "your-secret-key-here")
 
 # Инициализация клиента Mistral
-api_key = os.getenv("MISTRAL_API_KEY")
+api_key = os.environ.get("MISTRAL_API_KEY", "InDPitkUkV2JX5S1wdlWZwIfee6wTwLc")
 client = MistralClient(api_key=api_key)
 
 # База тегов, разбитая на категории
