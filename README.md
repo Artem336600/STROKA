@@ -1,4 +1,4 @@
-# Stroka
+# STROKA
 
 Веб-приложение для поиска собеседников по интересам.
 
@@ -21,8 +21,8 @@
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/ваш-username/stroka.git
-cd stroka
+git clone https://github.com/Artem336600/STROKA.git
+cd STROKA
 ```
 
 2. Установите зависимости:
@@ -49,4 +49,4 @@ python server.py
 - `static/` - статические файлы (CSS, JavaScript)
 - `templates/` - HTML шаблоны
 - `requirements.txt` - зависимости проекта
-- `Procfile` - конфигурация для деплоя 
+- `Procfile` - конфигурация для деплоя
