@@ -14,9 +14,18 @@ RUN apt-get update && apt-get install -y \
 # Копирование только requirements.txt сначала
 COPY requirements.txt .
 
-# Обновление pip и установка зависимостей с подробным выводом
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    pip install --no-cache-dir -r requirements.txt -v
+# Обновление pip
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+# Установка зависимостей по одной
+RUN pip install --no-cache-dir Flask==3.0.2
+RUN pip install --no-cache-dir flask-cors==4.0.0
+RUN pip install --no-cache-dir supabase==1.2.0
+RUN pip install --no-cache-dir PyJWT==2.8.0
+RUN pip install --no-cache-dir python-dotenv==1.0.0
+RUN pip install --no-cache-dir gunicorn==21.2.0
+RUN pip install --no-cache-dir requests==2.31.0
+RUN pip install --no-cache-dir mistralai==0.0.12
 
 # Копирование остальных файлов проекта
 COPY . .
