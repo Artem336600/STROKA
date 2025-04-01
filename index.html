@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Строка - Поиск с тегами</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Строка - Поиск с тегами</h1>
+            <nav class="nav-buttons">
+                <button id="chats-btn" class="nav-button">
+                    <i class="fas fa-comments"></i>
+                </button>
+                <button id="notifications-btn" class="nav-button">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                </button>
+                <div class="profile-section">
+                    <button id="profile-btn" class="nav-button">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div id="profile-dropdown" class="profile-dropdown">
+                        <div id="auth-buttons" class="auth-buttons">
+                            <button id="login-btn" class="auth-button">Войти</button>
+                            <button id="register-btn" class="auth-button">Регистрация</button>
+                        </div>
+                        <div id="user-info" class="user-info" style="display: none;">
+                            <!-- Информация о пользователе будет добавлена через JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Форма входа -->
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <h2>Вход</h2>
+                <form id="login-form">
+                    <input type="text" id="login-telegram" placeholder="Telegram" required>
+                    <input type="password" id="login-password" placeholder="Пароль" required>
+                    <button type="submit">Войти</button>
+                </form>
+                <button class="close-modal">Закрыть</button>
+            </div>
+        </div>
+
+        <!-- Форма регистрации -->
+        <div id="register-modal" class="modal">
+            <div class="modal-content">
+                <h2>Регистрация</h2>
+                <div id="register-step-1">
+                    <form id="register-form">
+                        <input type="text" id="register-telegram" placeholder="Telegram" required>
+                        <input type="password" id="register-password" placeholder="Пароль" required>
+                        <button type="submit">Далее</button>
+                    </form>
+                </div>
+                <div id="register-step-2" style="display: none;">
+                    <div class="telegram-verification">
+                        <p>Для подтверждения аккаунта, пожалуйста, отправьте сообщение нашему боту:</p>
+                        <div class="bot-info">
+                            <i class="fab fa-telegram"></i>
+                            <a href="https://t.me/your_bot_name" target="_blank" class="bot-link">@your_bot_name</a>
+                        </div>
+                        <p>Код подтверждения:</p>
+                        <div class="verification-code">
+                            <span id="verification-code-display"></span>
+                            <button id="copy-code-btn" class="copy-btn">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <div class="verification-status">
+                            <p>Статус: <span id="verification-status">Ожидание подтверждения...</span></p>
+                        </div>
+                        <button id="check-verification-btn" class="verify-btn">Проверить подтверждение</button>
+                    </div>
+                </div>
+                <div id="register-step-3" style="display: none;">
+                    <form id="register-about-form">
+                        <textarea id="register-about" placeholder="Расскажите коротко о себе..." required></textarea>
+                        <div class="suggested-tags"></div>
+                        <button type="submit">Зарегистрироваться</button>
+                    </form>
+                </div>
+                <button class="close-modal">Закрыть</button>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Введите запрос...">
+                <button id="search-button">Найти</button>
+            </div>
+        </div>
+
+        <div class="tags-section">
+            <h2>Выбранные теги</h2>
+            <div id="selected-tags" class="selected-tags"></div>
+        </div>
+
+        <div class="content">
+            <div class="sidebar">
+                <h2>Как использовать</h2>
+                <p>1. Введите запрос в поисковую строку</p>
+                <p>2. Выберите подходящие теги из предложенных</p>
+                <p>3. Нажмите "Найти" для поиска</p>
+            </div>
+            <div class="main-content">
+                <button id="add-tags-btn" class="add-tags-btn">Добавить теги</button>
+                <div id="tags-grid" class="tags-grid"></div>
+                <div id="results" class="results-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для тегов -->
+    <div id="tags-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Выберите теги</h2>
+            <div id="modal-tags-grid" class="tags-grid"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для чатов -->
+    <div id="chats-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Чаты</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div id="chats-list" class="chats-list">
+                <!-- Здесь будут отображаться чаты -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для уведомлений -->
+    <div id="notifications-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Уведомления</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div id="notifications-list" class="notifications-list">
+                <!-- Здесь будут отображаться уведомления -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

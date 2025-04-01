@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль - Строка</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="nav-buttons">
+                <button id="back-btn" class="nav-button" onclick="window.location.href='/'">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button id="chats-btn" class="nav-button">
+                    <i class="fas fa-comments"></i>
+                </button>
+                <button id="notifications-btn" class="nav-button">
+                    <i class="fas fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="profile-content">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <span class="profile-icon">👤</span>
+                    <div>
+                        <h2 id="profile-telegram"></h2>
+                    </div>
+                </div>
+
+                <div class="profile-about">
+                    <h3>О себе</h3>
+                    <p id="profile-about"></p>
+                </div>
+
+                <div class="profile-tags">
+                    <h3>Мои теги</h3>
+                    <div id="profile-tags" class="tags-container"></div>
+                </div>
+
+                <div class="profile-actions">
+                    <button id="logout-btn" class="logout-btn">Выйти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+</html> 
