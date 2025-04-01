@@ -32,15 +32,21 @@ RUN pip install --no-cache-dir \
 # Установка дополнительных зависимостей
 RUN pip install --no-cache-dir \
     requests==2.31.0 \
-    httpx==0.27.0 \
+    httpx==0.24.1 \
     PyJWT==2.8.0 \
     python-dotenv==1.0.0 \
     gunicorn==21.2.0
 
-# Установка специфических зависимостей
+# Установка supabase и его зависимостей
 RUN pip install --no-cache-dir \
-    mistralai==0.0.12 \
-    supabase==2.3.5
+    gotrue==1.1.1 \
+    postgrest==0.13.0 \
+    realtime==1.0.0 \
+    storage3==0.7.0 \
+    supabase==1.2.0
+
+# Установка mistralai
+RUN pip install --no-cache-dir mistralai==0.0.12
 
 # Копирование остальных файлов проекта
 COPY . .
