@@ -1,7 +1,7 @@
 Flask==3.0.2
 flask-cors==4.0.0
 mistralai==0.0.12
-supabase==2.3.5
+supabase-py==0.0.3
 PyJWT==2.8.0
 python-dotenv==1.0.0
 Werkzeug==3.0.1
