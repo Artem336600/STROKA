@@ -6,19 +6,20 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
+    gcc \
+    libffi-dev \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Копирование файлов проекта
+# Копирование только requirements.txt сначала
 COPY requirements.txt .
-COPY . .
-
-# Создание и активация виртуального окружения
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
 
 # Обновление pip и установка зависимостей
-RUN pip install --no-cache-dir --upgrade pip && \
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     pip install --no-cache-dir -r requirements.txt
+
+# Копирование остальных файлов проекта
+COPY . .
 
 # Открытие порта
 EXPOSE 5000
