@@ -9,20 +9,24 @@ from datetime import datetime, timedelta
 import json
 import random
 import string
+from dotenv import load_dotenv
+
+# Загружаем переменные окружения
+load_dotenv()
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
 
 # Инициализация Supabase
-supabase_url = "https://ddfjcrfioaymllejalpm.supabase.co"
-supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkZmpjcmZpb2F5bWxsZWphbHBtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjQ3ODYzOSwiZXhwIjoyMDU4MDU0NjM5fQ.Dh42k1K07grKhF3DntbNLSwUifaXAa0Q6-LEIzRgpWM"
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(supabase_url, supabase_key)
 
 # Секретный ключ для JWT
-JWT_SECRET = "your-secret-key-here"  # Замените на свой секретный ключ
+JWT_SECRET = os.getenv("JWT_SECRET")
 
 # Инициализация клиента Mistral
-api_key = "InDPitkUkV2JX5S1wdlWZwIfee6wTwLc"  # Ваш API ключ
+api_key = os.getenv("MISTRAL_API_KEY")
 client = MistralClient(api_key=api_key)
 
 # База тегов, разбитая на категории
@@ -867,4 +871,5 @@ def reject_request():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    port = int(os.getenv("PORT", 5000))
+    app.run(host='0.0.0.0', port=port) 

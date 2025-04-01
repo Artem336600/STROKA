@@ -17,7 +17,7 @@
 - Frontend: HTML, CSS, JavaScript
 - API: Mistral AI для анализа интересов
 
-## Установка и запуск
+## Установка и запуск локально
 
 1. Клонируйте репозиторий:
 ```bash
@@ -42,6 +42,18 @@ MISTRAL_API_KEY=ваш_ключ_mistral
 ```bash
 python server.py
 ```
+
+## Деплой на Railway
+
+1. Форкните этот репозиторий на GitHub
+2. Создайте новый проект на Railway, выбрав "Deploy from GitHub repo"
+3. Выберите ваш форк репозитория
+4. Добавьте переменные окружения в настройках проекта:
+   - SUPABASE_URL
+   - SUPABASE_KEY
+   - JWT_SECRET
+   - MISTRAL_API_KEY
+5. Railway автоматически запустит сервер, используя конфигурацию из Procfile
 
 ## Структура проекта
 
