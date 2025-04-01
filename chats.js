@@ -1,5 +1,8 @@
 let currentUser = null;
 
+// Базовый URL API
+const API_BASE_URL = '';
+
 // Проверяем авторизацию при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
@@ -26,7 +29,7 @@ document.getElementById('profile-btn').addEventListener('click', () => {
 // Загрузка чатов
 async function loadChats() {
     try {
-        const response = await fetch('http://localhost:5000/api/chats', {
+        const response = await fetch(`${API_BASE_URL}/api/chats`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

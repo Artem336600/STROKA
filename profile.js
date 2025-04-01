@@ -1,5 +1,8 @@
 let currentUser = null;
 
+// Базовый URL API
+const API_BASE_URL = '';
+
 // Проверяем авторизацию при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');

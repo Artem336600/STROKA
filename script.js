@@ -1,3 +1,6 @@
+// В начале файла добавим определение базового URL API
+const API_BASE_URL = ''; // Пустая строка для относительных путей
+
 // Глобальные переменные
 let selectedTags = new Set();
 let aiTags = new Set();
@@ -72,7 +75,7 @@ async function login(event) {
     try {
         console.log('Attempting login with:', { telegram }); // Логируем попытку входа
 
-        const response = await fetch('http://localhost:5000/api/login', {
+        const response = await fetch(`${API_BASE_URL}/api/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -112,7 +115,7 @@ registerForm.addEventListener('submit', async (e) => {
 
     try {
         // Проверяем, существует ли пользователь
-        const checkResponse = await fetch('http://localhost:5000/api/check-user', {
+        const checkResponse = await fetch(`${API_BASE_URL}/api/check-user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -124,7 +127,7 @@ registerForm.addEventListener('submit', async (e) => {
         
         if (checkResponse.ok) {
             // Если пользователь не существует, запрашиваем код подтверждения
-            const verificationResponse = await fetch('http://localhost:5000/api/request-verification', {
+            const verificationResponse = await fetch(`${API_BASE_URL}/api/request-verification`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -174,7 +177,7 @@ function startVerificationCheck() {
 
     checkButton.addEventListener('click', async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/check-verification', {
+            const response = await fetch(`${API_BASE_URL}/api/check-verification`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -213,7 +216,7 @@ function startVerificationCheck() {
     // Автоматическая проверка каждые 5 секунд
     verificationInterval = setInterval(async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/check-verification', {
+            const response = await fetch(`${API_BASE_URL}/api/check-verification`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -249,7 +252,7 @@ document.getElementById('register-about').addEventListener('input', async (e) =>
     const about = e.target.value;
     if (about.length > 10) { // Начинаем поиск тегов только если текст достаточно длинный
         try {
-            const response = await fetch('http://localhost:5000/api/suggest-tags', {
+            const response = await fetch(`${API_BASE_URL}/api/suggest-tags`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -290,7 +293,7 @@ document.getElementById('register-about-form').addEventListener('submit', async 
     registrationData.about = document.getElementById('register-about').value;
 
     try {
-        const response = await fetch('http://localhost:5000/api/register', {
+        const response = await fetch(`${API_BASE_URL}/api/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -478,7 +481,7 @@ searchButton.addEventListener('click', async () => {
     if (query) {
         try {
             // Получаем теги из запроса
-            const response = await fetch('http://localhost:5000/api/suggest-tags', {
+            const response = await fetch(`${API_BASE_URL}/api/suggest-tags`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -499,7 +502,7 @@ searchButton.addEventListener('click', async () => {
                 addTagsBtn.style.display = 'block';
 
                 // Ищем пользователей по тегам
-                const searchResponse = await fetch('http://localhost:5000/api/search-users', {
+                const searchResponse = await fetch(`${API_BASE_URL}/api/search-users`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -526,7 +529,7 @@ searchButton.addEventListener('click', async () => {
         // Если запрос пустой, но есть выбранные теги, ищем по ним
         try {
             console.log('Searching by selected tags:', Array.from(selectedTags));
-            const searchResponse = await fetch('http://localhost:5000/api/search-users', {
+            const searchResponse = await fetch(`${API_BASE_URL}/api/search-users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -641,7 +644,7 @@ function displayResults(users) {
 async function sendRequest(targetTelegram) {
     try {
         console.log('Sending request to:', targetTelegram);
-        const response = await fetch('http://localhost:5000/api/send-request', {
+        const response = await fetch(`${API_BASE_URL}/api/send-request`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -740,7 +743,7 @@ if (closeTagsModal) {
 // Функция для проверки уведомлений
 async function checkNotifications() {
     try {
-        const response = await fetch('http://localhost:5000/api/notifications', {
+        const response = await fetch(`${API_BASE_URL}/api/notifications`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -818,7 +821,7 @@ function displayNotifications(notifications) {
 // Функция для принятия запроса
 async function acceptRequest(requestId) {
     try {
-        const response = await fetch('http://localhost:5000/api/accept-request', {
+        const response = await fetch(`${API_BASE_URL}/api/accept-request`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -844,7 +847,7 @@ async function acceptRequest(requestId) {
 // Функция для отклонения запроса
 async function rejectRequest(requestId) {
     try {
-        const response = await fetch('http://localhost:5000/api/reject-request', {
+        const response = await fetch(`${API_BASE_URL}/api/reject-request`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -885,7 +888,7 @@ document.getElementById('notifications-btn').addEventListener('click', async () 
 
         // Загружаем и отображаем уведомления
         try {
-            const response = await fetch('http://localhost:5000/api/notifications', {
+            const response = await fetch(`${API_BASE_URL}/api/notifications`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
@@ -913,7 +916,7 @@ document.querySelector('#notifications-modal .close').addEventListener('click', 
 // Функция для загрузки чатов
 async function loadChats() {
     try {
-        const response = await fetch('http://localhost:5000/api/chats', {
+        const response = await fetch(`${API_BASE_URL}/api/chats`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

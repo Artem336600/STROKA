@@ -1,5 +1,8 @@
 let currentUser = null;
 
+// Базовый URL API
+const API_BASE_URL = '';
+
 // Проверяем авторизацию при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
@@ -26,7 +29,7 @@ document.getElementById('profile-btn').addEventListener('click', () => {
 // Загрузка уведомлений
 async function loadNotifications() {
     try {
-        const response = await fetch('http://localhost:5000/api/notifications', {
+        const response = await fetch(`${API_BASE_URL}/api/notifications`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -73,7 +76,7 @@ function displayNotifications(notifications) {
 // Отметить уведомление как прочитанное
 async function markNotificationAsRead(notificationId) {
     try {
-        const response = await fetch(`http://localhost:5000/api/notifications/${notificationId}/read`, {
+        const response = await fetch(`${API_BASE_URL}/api/notifications/${notificationId}/read`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
