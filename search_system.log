@@ -1,0 +1,35 @@
+2025-04-28 20:02:17,365 - people-search - INFO - ==================================================
+2025-04-28 20:02:17,365 - people-search - INFO - Запуск поисковой системы по людям
+2025-04-28 20:02:17,365 - people-search - INFO - ==================================================
+2025-04-28 20:02:17,366 - people-search - INFO - Загрузка профилей из директории people...
+2025-04-28 20:02:17,367 - people-search - INFO - Загружено 10/12 профилей
+2025-04-28 20:02:17,367 - people-search - INFO - Загружено 12/12 профилей
+2025-04-28 20:02:17,367 - people-search - INFO - Успешно загружено 12 профилей
+2025-04-28 20:02:17,368 - people-search - INFO - Загружено 12 профилей из директории people
+2025-04-28 20:02:17,368 - people-search - INFO - Создание новых эмбеддингов для 12 профилей...
+2025-04-28 20:02:17,368 - people-search - INFO - Инициализация модели эмбеддингов distiluse-base-multilingual-cased-v2...
+2025-04-28 20:02:17,369 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-04-28 20:02:17,370 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: distiluse-base-multilingual-cased-v2
+2025-04-28 20:02:19,850 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-04-28 20:03:11,242 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-04-28 20:03:11,246 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-04-28 20:03:12,817 - people-search - INFO - Эмбеддинги сохранены в кэш: embeddings_cache.npz
+2025-04-28 20:03:12,817 - people-search - INFO - Создание эмбеддингов завершено за 55.45 сек
+2025-04-28 20:03:12,817 - people-search - INFO - Создание улучшенного FAISS индекса для 12 профилей...
+2025-04-28 20:03:12,817 - people-search - INFO - Используется простой индекс IndexFlatIP для малой коллекции
+2025-04-28 20:03:12,817 - people-search - INFO - Индекс FAISS создан за 0.00 сек
+2025-04-28 20:03:12,818 - people-search - INFO - Построение TF-IDF матрицы...
+2025-04-28 20:03:12,820 - people-search - INFO - Поисковая система инициализирована с 12 профилями
+2025-04-28 20:03:12,821 - people-search - INFO - Система готова к работе!
+2025-04-28 20:03:23,439 - people-search - INFO - Обнаружены категории запроса: ['name', 'опыт']
+2025-04-28 20:03:23,439 - people-search - INFO - Запрос расширен с приоритетом поиска по имени: Кто имеет опыт работы в IT более 10 лет? опыт работы
+2025-04-28 20:03:23,439 - people-search - INFO - Поиск по запросу: 'Кто имеет опыт работы в IT более 10 лет? опыт работы'
+2025-04-28 20:03:23,475 - people-search - INFO - Поиск выполнен за 0.037 сек, найдено 7 результатов
+2025-04-28 20:03:43,733 - people-search - INFO - Обнаружены категории запроса: ['name', 'опыт']
+2025-04-28 20:03:43,733 - people-search - INFO - Запрос расширен с приоритетом поиска по имени: самый опытный специалист в своей сфере своей сфере
+2025-04-28 20:03:43,733 - people-search - INFO - Поиск по запросу: 'самый опытный специалист в своей сфере своей сфере'
+2025-04-28 20:03:43,755 - people-search - INFO - Поиск выполнен за 0.022 сек, найдено 7 результатов
+2025-04-28 20:04:10,460 - people-search - INFO - Обнаружены категории запроса: ['name']
+2025-04-28 20:04:10,461 - people-search - INFO - Запрос расширен с приоритетом поиска по имени: мне нужен дизайнер мне нужен
+2025-04-28 20:04:10,461 - people-search - INFO - Поиск по запросу: 'мне нужен дизайнер мне нужен'
+2025-04-28 20:04:10,481 - people-search - INFO - Поиск выполнен за 0.020 сек, найдено 7 результатов
