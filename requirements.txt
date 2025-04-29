@@ -1,4 +1,0 @@
-numpy>=1.19.0
-sentence-transformers>=2.2.0
-pyyaml>=5.4.0
-pathlib>=1.0.1 
