@@ -112,6 +112,53 @@ class Searcher:
                     'entities': mistral_analysis.get('extracted_entities', [])
                 }
                 
+                # Предварительная фильтрация по профессии
+                if query_analysis['search_type'] == 'profession':
+                    profession_keywords = []
+                    for entity in query_analysis.get('entities', []):
+                        if isinstance(entity, str) and len(entity) > 3:  # Минимальная длина для профессии
+                            profession_keywords.append(entity.lower())
+                    
+                    if profession_keywords:
+                        logger.info(f"Фильтрация по профессии: {profession_keywords}")
+                        filtered_profiles = []
+                        filtered_embeddings = []
+                        
+                        for i, profile in enumerate(self.profiles):
+                            content_lower = profile['content'].lower()
+                            
+                            # Проверяем совпадение ключевых слов профессии
+                            matches = False
+                            for keyword in profession_keywords:
+                                if keyword in content_lower:
+                                    matches = True
+                                    break
+                            
+                            if matches:
+                                filtered_profiles.append(profile)
+                                filtered_embeddings.append(self.embeddings[i])
+                        
+                        # Если найдены соответствующие профили, используем только их
+                        if filtered_profiles:
+                            logger.info(f"Найдено {len(filtered_profiles)} профилей, соответствующих профессии")
+                            temp_profiles = self.profiles
+                            temp_embeddings = self.embeddings
+                            
+                            # Временно заменяем списки профилей и эмбеддингов
+                            self.profiles = filtered_profiles
+                            self.embeddings = np.array(filtered_embeddings)
+                            
+                            # Получаем результаты поиска
+                            results = self._perform_vector_search(query_analysis, query, limit)
+                            
+                            # Восстанавливаем исходные списки
+                            self.profiles = temp_profiles
+                            self.embeddings = temp_embeddings
+                            
+                            end_time = time.time()
+                            logger.info(f"Поиск выполнен за {end_time - start_time:.3f}с. Найдено {len(results)} результатов")
+                            return results
+                
                 # Проверяем наличие расширенного запроса
                 if 'expanded_query' in mistral_analysis and mistral_analysis['expanded_query']:
                     # Для векторного поиска можем использовать расширенный запрос
@@ -124,7 +171,7 @@ class Searcher:
             # Используем стандартный анализ, если Mistral недоступен
             query_analysis = self.analyze_query(query)
             query_for_vector = query
-        
+            
         # Прямой поиск по имени
         if 'direct_name' in query_analysis or ('search_type' in query_analysis and query_analysis['search_type'] == 'person'):
             name_search = query_analysis.get('direct_name', '')
@@ -147,7 +194,14 @@ class Searcher:
                 if name_results:
                     logger.info(f"Найден профиль по имени: {name_results[0]['name']}")
                     return name_results[:limit]
-        
+                    
+        results = self._perform_vector_search(query_analysis, query_for_vector, limit)
+        end_time = time.time()
+        logger.info(f"Поиск выполнен за {end_time - start_time:.3f}с. Найдено {len(results)} результатов")
+        return results
+    
+    def _perform_vector_search(self, query_analysis, query_for_vector, limit):
+        """Выполняет векторный поиск по подготовленному запросу"""
         # Создаем эмбеддинг запроса
         query_embedding = self.embedder.encode(query_for_vector, normalize_embeddings=True)
         
@@ -182,7 +236,7 @@ class Searcher:
         # Если есть Mistral и есть результаты, переранжируем их
         if self.use_mistral and self._mistral_enhancer and results:
             try:
-                ranked_results = self._mistral_enhancer.rerank_results(query, results, top_n=limit)
+                ranked_results = self._mistral_enhancer.rerank_results(query_for_vector, results, top_n=limit)
                 if ranked_results:
                     results = ranked_results
             except Exception as e:
@@ -193,9 +247,6 @@ class Searcher:
             # Ограничиваем результаты без Mistral
             results = results[:limit]
                 
-        end_time = time.time()
-        logger.info(f"Поиск выполнен за {end_time - start_time:.3f}с. Найдено {len(results)} результатов")
-        
         return results
     
     def analyze_query(self, query: str) -> Dict[str, Any]:
